@@ -1,0 +1,8 @@
+#!/bin/bash
+
+BATTERY=$(acpi -b | awk '{print $3" " $4 $5}');
+DATE_TIME=$(date +"%F %R");
+LAYOUT=$(setxkbmap -print | awk -F"+" '/xkb_symbols/ {print $2}');
+DISK_USAGE=$(df | grep /dev/sda2 | awk '{print $5}');
+
+xsetroot -name "Disk use ${DISK_USAGE} | Battery ${BATTERY} | ${LAYOUT} | ${DATE_TIME}";

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+while true; do
+  dwm-clock;
+  sleep 1m;
+done &
+
+##Java fix
+_JAVA_AWT_WM_NONREPARENTING=1;
+export _JAVA_AWT_WM_NONREPARENTING;
+
+## Wallpaper
+#feh --bg-scale '/home/gedas/Pictures/Wallpapers/371401.jpg';

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# funtion that exports a variable 
+# function that exports a variable
 # if not already exported
 #
 # $1 the variable name
