@@ -58,6 +58,7 @@ static const char *termcmd[] = {"dwm-term", NULL}; // command for term
 static const char *browsercmd[] = {"dwm-browser", NULL}; // command for browser
 static const char *lockcmd[] = {"dwm-lock", NULL}; // command for lock
 static const char *changeLanguage[] = {"dwm-switch-language", NULL};
+static const char *afterStart[] = {"dwm-after-start", NULL};
 
 static Key keys[] = {
         /* modifier                     key        function        argument */
@@ -66,6 +67,7 @@ static Key keys[] = {
         {MODKEY | ShiftMask, XK_t, spawn, {.v = termcmd}},
         {MODKEY | ShiftMask, XK_l, spawn, {.v = lockcmd}},
         {MODKEY | ShiftMask, XK_b, spawn, {.v = browsercmd}},
+        {MODKEY, XK_s, spawn, {.v = afterStart}},
         {MODKEY, XK_Up, focusstack, {.i = +1}},
         {MODKEY, XK_Down, focusstack, {.i = -1}},
         {MODKEY | ShiftMask, XK_Left, setmfact, {.f = -0.05}},

@@ -73,8 +73,12 @@ install: all
 	@cp config/dmenu-user ${DESTDIR}${CONFPREFIX}/etc/dwm-desktop/
 	@echo installing manual page to ${DESTDIR}${MANPREFIX}/man1
 	@mkdir -p ${DESTDIR}${MANPREFIX}/man1
-	@sed "s/VERSION/${VERSION}/g" < dwm.1 > ${DESTDIR}${MANPREFIX}/man1/dwm-desktop.1
-	@chmod 644 ${DESTDIR}${MANPREFIX}/man1/dwm.1
+	@cp -f scripts/dwm-after-start ${DESTDIR}${PREFIX}/bin/dwm-after-start
+	@chmod 755 ${DESTDIR}${PREFIX}/bin/dwm-after-start
+	@cp -f scripts/dwm-clock ${DESTDIR}${PREFIX}/bin/dwm-clock
+	@chmod 755 ${DESTDIR}${PREFIX}/bin/dwm-clock
+	@cp -f scripts/dwm-switch-language ${DESTDIR}${PREFIX}/bin/dwm-switch-language
+	@chmod 755 ${DESTDIR}${PREFIX}/bin/dwm-switch-language
 
 uninstall:
 	@echo removing executable file from ${DESTDIR}${PREFIX}/bin
