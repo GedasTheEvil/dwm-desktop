@@ -5,6 +5,8 @@ while true; do
   sleep 1m;
 done &
 
+xmodmap -e "remove lock = Caps_Lock";
+
 ##Java fix
 _JAVA_AWT_WM_NONREPARENTING=1;
 export _JAVA_AWT_WM_NONREPARENTING;
