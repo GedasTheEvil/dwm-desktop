@@ -4,5 +4,10 @@ BATTERY=$(acpi -b | awk '{print $3" " $4 $5}');
 DATE_TIME=$(date +"%F %R");
 LAYOUT=$(setxkbmap -print | awk -F"+" '/xkb_symbols/ {print $2}');
 DISK_USAGE=$(df | grep /dev/sda2 | awk '{print $5}');
+KEYBOARD_LAYOUT_SYMBOL=$(setxkbmap -query | grep layout | awk '{print $2}');
+DATE_AND_TIME=$(date +"%Y-%m-%d  %H:%M");
+FREE_MEMORY_KB=$(egrep 'MemFree' /proc/meminfo | awk '{print $2}');
+FREE_MEMORY_GB=$(expr  ${FREE_MEMORY_KB} / 1024 / 1024);
+UNREAD_MAIL=$(grep gedi /home/gskucas/.thunderbird/735my2ct.default/unread-counts);
 
-xsetroot -name "Disk use ${DISK_USAGE} | Battery ${BATTERY} | ${LAYOUT} | ${DATE_TIME}";
+xsetroot -name "${UNREAD_MAIL} | FMem: ${FREE_MEMORY_GB} GiB | ${KEYBOARD_LAYOUT_SYMBOL} | ${DATE_AND_TIME}";

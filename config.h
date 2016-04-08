@@ -61,9 +61,9 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0";
 /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = {"dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor,
+static const char *dmenucmd[] = {"dmenu_run", "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor,
                                  "-sb", selbgcolor, "-sf", selfgcolor, NULL};
-static const char *termCmd[] = {"st", NULL};
+static const char *termCmd[] = {"konsole", NULL};
 static const char *lockCmd[] = {"slock", NULL}; // command for lock
 static const char *changeLanguageCmd[] = {"dwm-switch-language", NULL};
 static const char *afterStartCmd[] = {"dwm-after-start", NULL};
@@ -74,7 +74,7 @@ static Key keys[] = {
         {MODKEY | ShiftMask, XK_Return, spawn, {.v = termCmd}},
         {0, XK_Caps_Lock, spawn, {.v = changeLanguageCmd}},
         {ControlMask | ShiftMask, XK_l, spawn, {.v = lockCmd}},
-        {MODKEY | ControlMask, XK_s, spawn, {.v = afterStartCmd}},
+        {MODKEY | ControlMask | ShiftMask , XK_s, spawn, {.v = afterStartCmd}},
         {MODKEY, XK_b, togglebar, {0}},
         {MODKEY, XK_j, focusstack, {.i = +1}},
         {MODKEY, XK_k, focusstack, {.i = -1}},
