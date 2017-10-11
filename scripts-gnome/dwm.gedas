@@ -1,0 +1,11 @@
+#!/bin/bash
+
+setxkbmap en;
+dwm.monitor;
+gnome-settings-daemon&
+
+while true; do
+    dwm.clock;
+    sleep 30s;
+done &
+

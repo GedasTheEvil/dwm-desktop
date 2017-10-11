@@ -1,0 +1,15 @@
+#!/bin/bash
+
+LAYOUT_NOW=$(setxkbmap -query | grep layout | awk '{print $2}');
+
+function changeLayout {
+	setxkbmap $1;
+	dwm.clock;
+}
+
+if [ "${LAYOUT_NOW}" == 'en' ] || [ "${LAYOUT_NOW}" == "us" ]; then
+	changeLayout lt;
+else
+	changeLayout us;
+fi;
+

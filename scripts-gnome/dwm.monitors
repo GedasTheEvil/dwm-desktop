@@ -1,0 +1,9 @@
+#!/bin/bash
+
+PRIMARY='eDP1';
+LEFT='HDMI1';
+RIGHT='VGA1';
+
+xrandr --output ${RIGHT} --auto --right-of ${PRIMARY};
+xrandr --output ${LEFT} --auto --left-of ${PRIMARY};
+
