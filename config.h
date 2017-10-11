@@ -29,7 +29,6 @@ static const Rule rules[] = {
          */
         /* class      instance    title       tags mask     isfloating   monitor */
         {"Gimp",    NULL, NULL, 0,      1, -1},
-        {"Firefox", NULL, NULL, 1 << 8, 0, -1},
 };
 
 /* layout(s) */
@@ -63,16 +62,16 @@ static char dmenumon[2] = "0";
 /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = {"dmenu_run", "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor,
                                  "-sb", selbgcolor, "-sf", selfgcolor, NULL};
-static const char *termCmd[] = {"konsole", NULL};
+static const char *termCmd[] = {"gnome-terminal", NULL};
 static const char *lockCmd[] = {"slock", NULL}; // command for lock
-static const char *changeLanguageCmd[] = {"dwm-switch-language", NULL};
-static const char *afterStartCmd[] = {"dwm-after-start", NULL};
+static const char *changeLanguageCmd[] = {"dwm.lang", NULL};
+static const char *afterStartCmd[] = {"dwm.gedas", NULL};
 
 static Key keys[] = {
         /* modifier                     key        function        argument */
         {MODKEY, XK_p, spawn, {.v = dmenucmd}},
         {MODKEY | ShiftMask, XK_Return, spawn, {.v = termCmd}},
-        {0, XK_Caps_Lock, spawn, {.v = changeLanguageCmd}},
+        {MODKEY | ShiftMask, XK_l, spawn, {.v = changeLanguageCmd}},
         {ControlMask | ShiftMask, XK_l, spawn, {.v = lockCmd}},
         {MODKEY | ControlMask | ShiftMask , XK_s, spawn, {.v = afterStartCmd}},
         {MODKEY, XK_b, togglebar, {0}},
