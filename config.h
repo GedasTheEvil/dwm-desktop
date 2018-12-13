@@ -4,20 +4,29 @@
 static const char *fonts[] = {
         "monospace:size=10"
 };
-static const char dmenufont[] = "monospace:size=10";
+static const char dmenufont[]       = "monospace:size=10";
 static const char normbordercolor[] = "#444444";
-static const char normbgcolor[] = "#222222";
-static const char normfgcolor[] = "#bbbbbb";
-static const char selbordercolor[] = "#5383d5";
-static const char selbgcolor[] = "#5383d5";
-static const char selfgcolor[] = "#eeeeee";
-static const unsigned int borderpx = 1;
-/* border pixel of windows */
-static const unsigned int snap = 32;
-/* snap pixel */
-static const int showbar = 1;
-/* 0 means no bar */
-static const int topbar = 1;        /* 0 means bottom bar */
+static const char normbgcolor[]     = "#222222";
+static const char normfgcolor[]     = "#bbbbbb";
+static const char selbordercolor[]  = "#5383d5";
+static const char selbgcolor[]      = "#5383d5";
+static const char selfgcolor[]      = "#eeeeee";
+static const unsigned int borderpx  = 1;        /* border pixel of windows */
+static const unsigned int snap      = 32;       /* snap pixel */
+static const int showbar            = 1;        /* 0 means no bar */
+static const int topbar             = 1;        /* 0 means bottom bar */
+
+#define FN_KEY                      0
+#define MUTE                        0x1008ff12
+#define VOLUME_DOWN                 0x1008ff11
+#define VOLUME_UP                   0x1008ff13
+#define KEYBOARD_FN                 0x1008ff42
+#define STAR_FN                     0x1008ff41
+
+#define KEY_CMD(mod,key,cmd) { mod, key, spawn, { .v = cmd } }
+#define DEF_CMD(var,cmd) static const char * var[] = {cmd, NULL}
+#define FN_CMD(key,cmd) KEY_CMD(FN_KEY,key,cmd)
+#define ALT_SHIFT_CMD(key,cmd) KEY_CMD(Mod1Mask|ShiftMask,key,cmd)
 
 /* tagging */
 static const char *tags[] = {"1.web", "2", "3", "4", "5", "6", "7", "8.mail", "9.vm"};
@@ -32,7 +41,7 @@ static const Rule rules[] = {
 };
 
 /* layout(s) */
-static const float mfact = 0.55;
+static const float mfact = 0.5;
 /* factor of master area size [0.05..0.95] */
 static const int nmaster = 1;
 /* number of clients in master area */
@@ -54,26 +63,31 @@ static const Layout layouts[] = {
     { MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
     { MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
-/* helper for spawning shell commands in the pre dwm-5.0 fashion */
-#define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
-
 /* commands */
 static char dmenumon[2] = "0";
 /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = {"dmenu_run", "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor,
                                  "-sb", selbgcolor, "-sf", selfgcolor, NULL};
+
+//DEF_CMD(termCmd, "gnome-terminal");
 static const char *termCmd[] = {"gnome-terminal", NULL};
-static const char *lockCmd[] = {"slock", NULL}; // command for lock
-static const char *changeLanguageCmd[] = {"dwm.lang", NULL};
-static const char *afterStartCmd[] = {"dwm.gedas", NULL};
+DEF_CMD(lockCmd, "slock");
+DEF_CMD(changeLanguageCmd, "dwm.lang");
+DEF_CMD(afterStartCmd, "dwm.gedas");
+DEF_CMD(muteCmd, "dwm.volume.mute");
+DEF_CMD(volumeUpCmd, "dwm.volume.up");
+DEF_CMD(volumeDownCmd, "dwm.volume.down");
 
 static Key keys[] = {
         /* modifier                     key        function        argument */
         {MODKEY, XK_p, spawn, {.v = dmenucmd}},
-        {MODKEY | ShiftMask, XK_Return, spawn, {.v = termCmd}},
-        {MODKEY | ShiftMask, XK_l, spawn, {.v = changeLanguageCmd}},
-        {ControlMask | ShiftMask, XK_l, spawn, {.v = lockCmd}},
-        {MODKEY | ControlMask | ShiftMask , XK_s, spawn, {.v = afterStartCmd}},
+        ALT_SHIFT_CMD(XK_Return, termCmd),
+        FN_CMD(KEYBOARD_FN, changeLanguageCmd),
+        KEY_CMD(ControlMask | ShiftMask, XK_l, lockCmd),
+        KEY_CMD(MODKEY | ControlMask | ShiftMask , XK_s, afterStartCmd),
+        FN_CMD(MUTE, muteCmd),
+        FN_CMD(VOLUME_DOWN, volumeDownCmd),
+        FN_CMD(VOLUME_UP, volumeUpCmd),
         {MODKEY, XK_b, togglebar, {0}},
         {MODKEY, XK_j, focusstack, {.i = +1}},
         {MODKEY, XK_k, focusstack, {.i = -1}},
