@@ -25,6 +25,16 @@ static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 
+#define NUMCOLORS         4
+static const char colors[NUMCOLORS][MAXCOLORS][8] = {
+    // border   foreground background
+    { DWM_COLOR_DARKER_GRAY, DWM_COLOR_LIGHT_GRAY, DWM_COLOR_DARKER_GRAY },  // normal
+    { DWM_COLOR_BLUE_CHROME, DWM_COLOR_LIGHTER_GRAY, DWM_COLOR_BLUE_CHROME },  // selected
+    { "#ff0000", "#000000", "#ffff00" },  // urgent/warning  (black on yellow)
+    { "#ff0000", "#ffffff", "#ff0000" },  // error (white on red)
+    // add more here
+};
+
 #define FN_KEY                      0
 #define MUTE                        0x1008ff12
 #define VOLUME_DOWN                 0x1008ff11
