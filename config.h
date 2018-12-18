@@ -1,16 +1,25 @@
 /* See LICENSE file for copyright and license details. */
 
+#define DWM_FONT_MAIN "monospace:size=10"
+
 /* appearance */
 static const char *fonts[] = {
-        "monospace:size=10"
+        DWM_FONT_MAIN
 };
-static const char dmenufont[]       = "monospace:size=10";
-static const char normbordercolor[] = "#444444";
-static const char normbgcolor[]     = "#222222";
-static const char normfgcolor[]     = "#bbbbbb";
-static const char selbordercolor[]  = "#5383d5";
-static const char selbgcolor[]      = "#5383d5";
-static const char selfgcolor[]      = "#eeeeee";
+
+#define DWM_COLOR_DARK_GRAY "#444444"
+#define DWM_COLOR_DARKER_GRAY "#222222"
+#define DWM_COLOR_LIGHT_GRAY "#bbbbbb"
+#define DWM_COLOR_LIGHTER_GRAY "#eeeeee"
+#define DWM_COLOR_BLUE_CHROME "#5383d5"
+
+static const char dmenufont[]       = DWM_FONT_MAIN;
+static const char normbordercolor[] = DWM_COLOR_DARK_GRAY;
+static const char normbgcolor[]     = DWM_COLOR_DARKER_GRAY;
+static const char normfgcolor[]     = DWM_COLOR_LIGHT_GRAY;
+static const char selbordercolor[]  = DWM_COLOR_BLUE_CHROME;
+static const char selbgcolor[]      = DWM_COLOR_BLUE_CHROME;
+static const char selfgcolor[]      = DWM_COLOR_LIGHTER_GRAY;
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
@@ -29,7 +38,7 @@ static const int topbar             = 1;        /* 0 means bottom bar */
 #define ALT_SHIFT_CMD(key,cmd) KEY_CMD(Mod1Mask|ShiftMask,key,cmd)
 
 /* tagging */
-static const char *tags[] = {"1.web", "2", "3", "4", "5", "6", "7", "8.mail", "9.vm"};
+static const char *tags[] = {"1.web/dev", "2.cmd", "3", "4.fm", "5", "6.db", "7", "8.mail", "9.vm/com"};
 
 static const Rule rules[] = {
         /* xprop(1):
@@ -37,7 +46,7 @@ static const Rule rules[] = {
          *	WM_NAME(STRING) = title
          */
         /* class      instance    title       tags mask     isfloating   monitor */
-        {"Gimp",    NULL, NULL, 0,      1, -1},
+        {"Gimp",    NULL, NULL, 0,      0, -1},
 };
 
 /* layout(s) */
@@ -69,8 +78,7 @@ static char dmenumon[2] = "0";
 static const char *dmenucmd[] = {"dmenu_run", "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor,
                                  "-sb", selbgcolor, "-sf", selfgcolor, NULL};
 
-//DEF_CMD(termCmd, "gnome-terminal");
-static const char *termCmd[] = {"gnome-terminal", NULL};
+DEF_CMD(termCmd, "gnome-terminal");
 DEF_CMD(lockCmd, "slock");
 DEF_CMD(changeLanguageCmd, "dwm.lang");
 DEF_CMD(afterStartCmd, "dwm.gedas");

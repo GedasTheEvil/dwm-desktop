@@ -1,5 +1,5 @@
 # dwm version
-VERSION = 6.1-gedas-1.2
+VERSION = 6.1-gedas-1.2-thinkpad-T480
 
 # Customize below to fit your system
 
