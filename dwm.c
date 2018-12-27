@@ -703,7 +703,7 @@ dirtomon(int dir)
 }
 
 
-static char *
+void
 removeEmojiCancer(char rawText[])
 {
     size_t strLen = strlen(rawText);
