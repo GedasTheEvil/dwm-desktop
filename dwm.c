@@ -274,6 +274,38 @@ static Window root;
 /* compile-time check if all tags fit into an unsigned int bit array. */
 struct NumTags { char limitexceeded[LENGTH(tags) > 31 ? -1 : 1]; };
 
+static char *
+getTextWithoutEmojiCancer(char rawText[])
+{
+    size_t strLen = strlen(rawText);
+    static char cleanText[255];
+    int index = 0;
+    int indexClean = 0;
+    int skip = 0;
+
+    for(index = 0; index < strLen; ++index) {
+        if ((int)rawText[index] == -16) {
+            skip = 4;
+        }
+
+        if (skip > 0) {
+            --skip;
+        } else {
+            cleanText[indexClean++] = rawText[index];
+        }
+    }
+
+    cleanText[indexClean] = '\0';
+
+    return cleanText;
+}
+
+void
+removeEmojiCancer()
+{
+    strcpy(stext, getTextWithoutEmojiCancer(stext));
+}
+
 /* function implementations */
 void
 applyrules(Client *c)
@@ -421,6 +453,7 @@ buttonpress(XEvent *e)
 	Client *c;
 	Monitor *m;
 	XButtonPressedEvent *ev = &e->xbutton;
+    removeEmojiCancer();
 
 	click = ClkRootWin;
 	/* focus monitor if necessary */
@@ -702,40 +735,6 @@ dirtomon(int dir)
 	return m;
 }
 
-static char *
-getTextWithoutEmojiCancer(char rawText[])
-{
-	size_t strLen = strlen(rawText);
-	static char cleanText[255];
-	int index = 0;
-	int indexClean = 0;
-	int skip = 0;
-
-	for(index = 0; index < strLen; ++index) {
-		if ((int)rawText[index] == -16) {
-			skip = 4;
-		}
-
-		printf("Debug: %d \n", (int)rawText[index]);
-
-		if (skip > 0) {
-			--skip;
-		} else {
-			cleanText[indexClean++] = rawText[index];
-		}
-	}
-
-	cleanText[indexClean] = '\0';
-
-	return cleanText;
-}
-
-void
-removeEmojiCancer(char rawText[])
-{
-    strcpy(stext, getTextWithoutEmojiCancer(rawText));
-}
-
 void
 drawbar(Monitor *m)
 {
@@ -765,7 +764,7 @@ drawbar(Monitor *m)
 	x += w;
 	xx = x;
 	if (m == selmon) { /* status is only drawn on selected monitor */
-        removeEmojiCancer(stext);
+        removeEmojiCancer();
 		w = drw_get_width(drw, NUMCOLORS, stext);
 		x = m->ww - w;
 		if (x < xx) {
@@ -2028,6 +2027,7 @@ updatetitle(Client *c)
 void
 updatestatus(void)
 {
+    removeEmojiCancer();
 	if (!gettextprop(root, XA_WM_NAME, stext, sizeof(stext)))
 		strcpy(stext, "dwm-"VERSION);
 	drawbar(selmon);
