@@ -702,29 +702,38 @@ dirtomon(int dir)
 	return m;
 }
 
+static char *
+getTextWithoutEmojiCancer(char rawText[])
+{
+	size_t strLen = strlen(rawText);
+	static char cleanText[255];
+	int index = 0;
+	int indexClean = 0;
+	int skip = 0;
+
+	for(index = 0; index < strLen; ++index) {
+		if ((int)rawText[index] == -16) {
+			skip = 4;
+		}
+
+		printf("Debug: %d \n", (int)rawText[index]);
+
+		if (skip > 0) {
+			--skip;
+		} else {
+			cleanText[indexClean++] = rawText[index];
+		}
+	}
+
+	cleanText[indexClean] = '\0';
+
+	return cleanText;
+}
 
 void
 removeEmojiCancer(char rawText[])
 {
-    size_t strLen = strlen(rawText);
-    char cleanText[strLen];
-    int index = 0;
-    int indexClean = 0;
-    int skip = 0;
-
-    for(index = 0; index < strLen; ++index) {
-        if ((int)rawText[index] == 0xF0) {
-            skip = 4;
-        }
-
-        if (skip > 0) {
-            --skip;
-        } else {
-            cleanText[indexClean++] = rawText[index];
-        }
-    }
-
-    strcpy(stext, cleanText);
+    strcpy(stext, getTextWithoutEmojiCancer(rawText));
 }
 
 void
@@ -2152,6 +2161,8 @@ main(int argc, char *argv[])
 {
 	if (argc == 2 && !strcmp("-v", argv[1]))
 		die("dwm-"VERSION "\n");
+	else if (argc == 3 && !strcmp("-t1", argv[1]))
+		die(getTextWithoutEmojiCancer(argv[2]));
 	else if (argc != 1)
 		die("usage: dwm [-v]\n");
 	if (!setlocale(LC_CTYPE, "") || !XSupportsLocale())
