@@ -702,6 +702,31 @@ dirtomon(int dir)
 	return m;
 }
 
+
+static char *
+removeEmojiCancer(char rawText[])
+{
+    size_t strLen = strlen(rawText);
+    char cleanText[strLen];
+    int index = 0;
+    int indexClean = 0;
+    int skip = 0;
+
+    for(index = 0; index < strLen; ++index) {
+        if ((int)rawText[index] == 0xF0) {
+            skip = 4;
+        }
+
+        if (skip > 0) {
+            --skip;
+        } else {
+            cleanText[indexClean++] = rawText[index];
+        }
+    }
+
+    strcpy(stext, cleanText);
+}
+
 void
 drawbar(Monitor *m)
 {
@@ -731,6 +756,7 @@ drawbar(Monitor *m)
 	x += w;
 	xx = x;
 	if (m == selmon) { /* status is only drawn on selected monitor */
+        removeEmojiCancer(stext);
 		w = drw_get_width(drw, NUMCOLORS, stext);
 		x = m->ww - w;
 		if (x < xx) {
