@@ -469,11 +469,20 @@ getTextWithoutEmojiCancer(char rawText[])
 	int index = 0;
 	int indexClean = 0;
 	int skip = 0;
+	int keyCode; 
 
 	for(index = 0; index < strLen; ++index) {
-		if ((int)rawText[index] == -16) {
+		keyCode = (int)rawText[index];
+
+		if (keyCode == -16) {
 			skip = 4;
 		}
+
+		if (keyCode == -30) {
+			skip = 3;
+		}
+
+		printf("%d\n", (int)rawText[index]);
 
 		if (skip > 0) {
 			--skip;
