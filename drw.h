@@ -74,3 +74,6 @@ int drw_text(Drw *, int, int, unsigned int, unsigned int, const char *, int);
 
 /* Map functions */
 void drw_map(Drw *, Window, int, int, unsigned int, unsigned int);
+
+/* Crash prevention */
+char * getTextWithoutEmojiCancer(char rawText[]);

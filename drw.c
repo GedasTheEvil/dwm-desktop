@@ -281,8 +281,9 @@ drw_rect(Drw *drw, int x, int y, unsigned int w, unsigned int h, int filled, int
 }
 
 int
-drw_text(Drw *drw, int x, int y, unsigned int w, unsigned int h, const char *text, int invert)
+drw_text(Drw *drw, int x, int y, unsigned int w, unsigned int h, const char *rawText, int invert)
 {
+	char *text = getTextWithoutEmojiCancer((char *)rawText);
 	char buf[1024];
 	int tx, ty, th;
 	Extnts tex;
@@ -457,4 +458,31 @@ drw_cur_free(Drw *drw, Cur *cursor)
 		return;
 	XFreeCursor(drw->dpy, cursor->cursor);
 	free(cursor);
+}
+
+
+char *
+getTextWithoutEmojiCancer(char rawText[])
+{
+	size_t strLen = strlen(rawText);
+	static char cleanText[255];
+	int index = 0;
+	int indexClean = 0;
+	int skip = 0;
+
+	for(index = 0; index < strLen; ++index) {
+		if ((int)rawText[index] == -16) {
+			skip = 4;
+		}
+
+		if (skip > 0) {
+			--skip;
+		} else {
+			cleanText[indexClean++] = rawText[index];
+		}
+	}
+
+	cleanText[indexClean] = '\0';
+
+	return cleanText;
 }

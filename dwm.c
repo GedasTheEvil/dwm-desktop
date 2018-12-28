@@ -234,8 +234,7 @@ static int xerror(Display *dpy, XErrorEvent *ee);
 static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void zoom(const Arg *arg);
-static char * getTextWithoutEmojiCancer(char rawText[]);
-void removeEmojiCancer();
+static void removeEmojiCancer();
 
 /* variables */
 static const char broken[] = "broken";
@@ -2124,32 +2123,6 @@ zoom(const Arg *arg)
 		if (!c || !(c = nexttiled(c->next)))
 			return;
 	pop(c);
-}
-
-static char *
-getTextWithoutEmojiCancer(char rawText[])
-{
-	size_t strLen = strlen(rawText);
-	static char cleanText[255];
-	int index = 0;
-	int indexClean = 0;
-	int skip = 0;
-
-	for(index = 0; index < strLen; ++index) {
-		if ((int)rawText[index] == -16) {
-			skip = 4;
-		}
-
-		if (skip > 0) {
-			--skip;
-		} else {
-			cleanText[indexClean++] = rawText[index];
-		}
-	}
-
-	cleanText[indexClean] = '\0';
-
-	return cleanText;
 }
 
 void
